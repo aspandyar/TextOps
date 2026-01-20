@@ -1,0 +1,22 @@
+.system-metrics-chart {
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.system-metrics-chart-title {
+  margin: 0 0 16px 0;
+  font-size: 1.125rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.system-metrics-chart-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}

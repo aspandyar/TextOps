@@ -1,0 +1,11 @@
+.progress-chart {
+  width: 100%;
+  padding: 20px;
+}
+
+.progress-chart-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}

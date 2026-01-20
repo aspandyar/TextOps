@@ -1,0 +1,165 @@
+.job-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid #2196F3;
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.job-card-success {
+  border-left-color: #4CAF50;
+}
+
+.job-card-danger {
+  border-left-color: #f44336;
+}
+
+.job-card-warning {
+  border-left-color: #ff9800;
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.job-card-title {
+  flex: 1;
+}
+
+.job-card-title h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.job-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.job-status-pending {
+  background: #e3f2fd;
+  color: #1976D2;
+}
+
+.job-status-running {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.job-status-completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.job-status-failed {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.job-status-cancelled {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.job-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.job-action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.job-action-cancel {
+  background: #ff9800;
+  color: white;
+}
+
+.job-action-cancel:hover {
+  background: #f57c00;
+}
+
+.job-action-delete {
+  background: #f44336;
+  color: white;
+}
+
+.job-action-delete:hover {
+  background: #d32f2f;
+}
+
+.job-card-body {
+  margin-top: 16px;
+}
+
+.job-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.job-info-item {
+  display: flex;
+  gap: 8px;
+}
+
+.job-info-label {
+  font-weight: 600;
+  color: #666;
+  min-width: 80px;
+}
+
+.job-info-value {
+  color: #333;
+}
+
+.job-card-progress {
+  margin-top: 16px;
+}
+
+.job-metrics {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.job-card-result {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.job-result-success {
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.job-result-error {
+  color: #c62828;
+  font-weight: 500;
+}
