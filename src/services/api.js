@@ -18,6 +18,22 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Check if data is FormData
+    const isFormData = config.data instanceof FormData || 
+                       (config.data && typeof config.data.constructor === 'function' && 
+                        config.data.constructor.name === 'FormData') ||
+                       (config.data && typeof config.data.append === 'function' && 
+                        typeof config.data.get === 'function');
+    
+    // Only set Content-Type for non-FormData requests
+    // Axios will automatically set it with boundary for FormData
+    if (isFormData) {
+      delete config.headers['Content-Type'];
+    } else if (!isFormData && !config.headers['Content-Type']) {
+      config.headers['Content-Type'] = 'application/json';
+    }
+    
     return config;
   },
   (error) => {

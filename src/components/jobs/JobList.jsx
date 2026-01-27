@@ -6,17 +6,16 @@ import './JobList.css';
 
 const JobList = memo(({ filter = 'all' }) => {
   const allJobs = useSelector(selectAllJobs);
-
-  const filteredJobs = useMemo(() => {
-    if (filter === 'all') return allJobs;
-    return useSelector(state => selectJobsByStatus(state, filter));
-  }, [allJobs, filter]);
+  // Use memoized selector - selectJobsByStatus is already memoized via createSelector
+  const filteredJobsByStatus = useSelector(state => 
+    filter === 'all' ? allJobs : selectJobsByStatus(state, filter)
+  );
 
   const sortedJobs = useMemo(() => {
-    return [...filteredJobs].sort((a, b) => {
+    return [...filteredJobsByStatus].sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
-  }, [filteredJobs]);
+  }, [filteredJobsByStatus]);
 
   if (sortedJobs.length === 0) {
     return (

@@ -2,38 +2,30 @@ import api from './api';
 
 export const jobService = {
   getAllJobs: async () => {
-    // Mock implementation - replace with actual API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([]);
-      }, 100);
-    });
+    try {
+      const response = await api.get('/jobs');
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch jobs: ${error.message}`);
+    }
   },
 
   createJob: async (jobData) => {
+    if (!jobData.file) {
+      throw new Error('File is required');
+    }
+
     const formData = new FormData();
     formData.append('file', jobData.file);
     formData.append('jobType', jobData.jobType);
     formData.append('options', JSON.stringify(jobData.options || {}));
 
     try {
-      const response = await api.post('/jobs', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // transformRequest in api.js handles FormData Content-Type automatically
+      const response = await api.post('/jobs', formData);
       return response.data;
     } catch (error) {
-      // Fallback to mock if API is not available
-      return {
-        id: Date.now(),
-        type: jobData.jobType,
-        fileName: jobData.file.name,
-        status: 'pending',
-        progress: 0,
-        createdAt: new Date().toISOString(),
-        fileSize: jobData.file.size,
-      };
+      throw new Error(`Failed to create job: ${error.message}`);
     }
   },
 
@@ -51,8 +43,7 @@ export const jobService = {
       await api.post(`/jobs/${jobId}/cancel`);
       return jobId;
     } catch (error) {
-      // Mock success for development
-      return jobId;
+      throw new Error(`Failed to cancel job: ${error.message}`);
     }
   },
 
@@ -61,8 +52,7 @@ export const jobService = {
       await api.delete(`/jobs/${jobId}`);
       return jobId;
     } catch (error) {
-      // Mock success for development
-      return jobId;
+      throw new Error(`Failed to delete job: ${error.message}`);
     }
   },
 
