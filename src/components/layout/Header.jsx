@@ -1,18 +1,12 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { useWebSocket } from '../../hooks/useWebSocket';
+import { selectJobsStats } from '../../store/selectors/jobSelectors';
 import './Header.css';
 
 const Header = memo(() => {
   const { isConnected } = useWebSocket();
-  const jobsStats = useSelector(state => {
-    const jobs = state.jobs.list;
-    return {
-      total: jobs.length,
-      running: jobs.filter(j => j.status === 'running').length,
-      completed: jobs.filter(j => j.status === 'completed').length,
-    };
-  });
+  const jobsStats = useSelector(selectJobsStats);
 
   return (
     <header className="app-header">

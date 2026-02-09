@@ -1,0 +1,11 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-layout > main,
+.app-layout .home-page,
+.app-layout .job-detail-page {
+  flex: 1;
+}

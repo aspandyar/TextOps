@@ -36,3 +36,10 @@ export const selectJobsStats = createSelector(
     pending: jobs.filter(j => j.status === 'pending').length,
   })
 );
+
+/** Memoized: jobs list filtered by status, or all jobs when filter is 'all'. */
+export const selectJobsFilteredByStatus = createSelector(
+  [selectAllJobs, (_, filter) => filter],
+  (jobs, filter) =>
+    filter === 'all' ? jobs : jobs.filter(job => job.status === filter)
+);

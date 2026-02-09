@@ -1,5 +1,4 @@
-import React, { lazy, Suspense } from 'react';
-import Header from '../components/layout/Header';
+import React from 'react';
 import Sidebar from '../components/layout/Sidebar';
 import Dashboard from '../components/layout/Dashboard';
 import './HomePage.css';
@@ -7,7 +6,6 @@ import './HomePage.css';
 const HomePage = () => {
   return (
     <div className="home-page">
-      <Header />
       <div className="home-page-content">
         <Sidebar />
         <main className="home-page-main">

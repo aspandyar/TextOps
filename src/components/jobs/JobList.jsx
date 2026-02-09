@@ -1,21 +1,16 @@
 import React, { memo, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { selectAllJobs, selectJobsByStatus } from '../../store/selectors/jobSelectors';
 import JobCard from './JobCard';
 import './JobList.css';
 
-const JobList = memo(({ filter = 'all' }) => {
-  const allJobs = useSelector(selectAllJobs);
-  // Use memoized selector - selectJobsByStatus is already memoized via createSelector
-  const filteredJobsByStatus = useSelector(state => 
-    filter === 'all' ? allJobs : selectJobsByStatus(state, filter)
-  );
-
+/**
+ * Presentational: receives jobs and callbacks from container. No Redux.
+ */
+const JobList = memo(({ jobs = [], filter = 'all', onCancel, onDelete }) => {
   const sortedJobs = useMemo(() => {
-    return [...filteredJobsByStatus].sort((a, b) => {
+    return [...jobs].sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
-  }, [filteredJobsByStatus]);
+  }, [jobs]);
 
   if (sortedJobs.length === 0) {
     return (
@@ -33,7 +28,12 @@ const JobList = memo(({ filter = 'all' }) => {
       </div>
       <div className="job-list-content">
         {sortedJobs.map(job => (
-          <JobCard key={job.id} job={job} />
+          <JobCard
+            key={job.id}
+            job={job}
+            onCancel={onCancel}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </div>

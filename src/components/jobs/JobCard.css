@@ -163,3 +163,16 @@
   color: #c62828;
   font-weight: 500;
 }
+
+.job-result-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 10px;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.job-result-stats span {
+  font-weight: 500;
+}

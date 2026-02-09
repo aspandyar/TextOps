@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectJobsStats } from '../../store/selectors/jobSelectors';
-import JobList from '../jobs/JobList';
+import JobListContainer from '../../containers/JobListContainer';
 import StatCard from '../common/StatCard';
 import SystemMetricsChart from '../charts/SystemMetricsChart';
 import './Dashboard.css';
@@ -57,7 +57,7 @@ const Dashboard = memo(() => {
 
       <div className="dashboard-jobs">
         <h2 className="dashboard-section-title">Jobs</h2>
-        <JobList filter="all" />
+        <JobListContainer filter="all" />
       </div>
     </div>
   );

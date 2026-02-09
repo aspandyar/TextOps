@@ -1,23 +1,22 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { store } from './store';
+import { fetchJobs } from './store/slices/jobsSlice';
 import { useWebSocket } from './hooks/useWebSocket';
 import AlertContainer from './components/common/AlertContainer';
+import Layout from './components/layout/Layout';
 import './App.css';
 
-// Lazy load pages for code splitting
+// Lazy load pages for code splitting (mandatory)
 const HomePage = lazy(() => import('./pages/HomePage'));
 const JobDetailPage = lazy(() => import('./pages/JobDetailPage'));
 
-// Protected Route Component
+// Protected Route: wrap main area; can be extended with auth checks
 const ProtectedRoute = ({ children }) => {
-  // For now, all routes are accessible
-  // In production, add authentication check here
   return children;
 };
 
-// Loading component
 const LoadingSpinner = () => (
   <div className="loading-spinner">
     <div className="spinner"></div>
@@ -25,9 +24,13 @@ const LoadingSpinner = () => (
   </div>
 );
 
-// App wrapper to initialize WebSocket
 const AppContent = () => {
+  const dispatch = useDispatch();
   useWebSocket();
+
+  useEffect(() => {
+    dispatch(fetchJobs());
+  }, [dispatch]);
 
   return (
     <>
@@ -38,18 +41,13 @@ const AppContent = () => {
             path="/"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <Layout />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/job/:jobId"
-            element={
-              <ProtectedRoute>
-                <JobDetailPage />
-              </ProtectedRoute>
-            }
-          />
+          >
+            <Route index element={<HomePage />} />
+            <Route path="job/:jobId" element={<JobDetailPage />} />
+          </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

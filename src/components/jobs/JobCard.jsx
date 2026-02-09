@@ -1,26 +1,22 @@
 import React, { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { cancelJob, deleteJob, setActiveJob } from '../../store/slices/jobsSlice';
+import { setActiveJob } from '../../store/slices/jobsSlice';
 import { useJobProgress } from '../../hooks/useJobProgress';
 import ProgressBar from '../common/ProgressBar';
 import { formatDate, formatBytes } from '../../utils/formatters';
 import './JobCard.css';
 
-const JobCard = memo(({ job }) => {
+const JobCard = memo(({ job, onCancel, onDelete }) => {
   const dispatch = useDispatch();
   const { progress, metrics } = useJobProgress(job.id);
 
   const handleCancel = useCallback(() => {
-    if (window.confirm('Are you sure you want to cancel this job?')) {
-      dispatch(cancelJob(job.id));
-    }
-  }, [dispatch, job.id]);
+    onCancel?.(job.id);
+  }, [job.id, onCancel]);
 
   const handleDelete = useCallback(() => {
-    if (window.confirm('Are you sure you want to delete this job?')) {
-      dispatch(deleteJob(job.id));
-    }
-  }, [dispatch, job.id]);
+    onDelete?.(job.id);
+  }, [job.id, onDelete]);
 
   const handleSelect = useCallback(() => {
     dispatch(setActiveJob(job.id));
@@ -100,6 +96,20 @@ const JobCard = memo(({ job }) => {
         {job.status === 'completed' && (
           <div className="job-card-result">
             <span className="job-result-success">✓ Job completed successfully</span>
+            {job.result?.stats && (
+              <div className="job-result-stats">
+                {job.type === 'wordcount' && (
+                  <>
+                    <span>Words: {job.result.stats.words?.toLocaleString() ?? '—'}</span>
+                    <span>Lines: {job.result.stats.lines?.toLocaleString() ?? '—'}</span>
+                    <span>Characters: {job.result.stats.characters?.toLocaleString() ?? '—'}</span>
+                  </>
+                )}
+                {job.type !== 'wordcount' && job.result.stats && (
+                  <span>Result: {JSON.stringify(job.result.stats)}</span>
+                )}
+              </div>
+            )}
           </div>
         )}
 
