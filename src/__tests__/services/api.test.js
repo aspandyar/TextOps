@@ -18,18 +18,13 @@ describe('API Service', () => {
       const token = 'test-token-123';
       localStorage.setItem('authToken', token);
 
-      let capturedHeaders;
       server.use(
-        http.get(`${API_BASE_URL}/jobs`, async ({ request }) => {
-          capturedHeaders = request.headers;
-          return HttpResponse.json([]);
-        })
+        http.get(`${API_BASE_URL}/jobs`, () => HttpResponse.json([]))
       );
 
       await api.get('/jobs');
 
-      // Note: MSW doesn't expose headers directly in the same way,
-      // but we can verify the token is stored
+      // Verify the token is stored (interceptor adds it to requests)
       expect(localStorage.getItem('authToken')).toBe(token);
     });
 

@@ -108,7 +108,7 @@ export const handlers = [
         if (options) {
           try {
             parsedOptions = typeof options === 'string' ? JSON.parse(options) : (options || {});
-          } catch (e) {
+          } catch {
             parsedOptions = {};
           }
         }
@@ -127,7 +127,7 @@ export const handlers = [
           fileName = body.fileName ?? body.file?.name ?? 'test.txt';
           fileSize = body.fileSize ?? body.file?.size ?? 1024;
           parsedOptions = body.options ?? {};
-        } catch (e) {
+        } catch {
           // Body wasn't JSON (e.g. raw multipart bytes); create a default job so createJob tests pass
           jobType = 'word-count';
           fileName = 'test.txt';
@@ -140,7 +140,7 @@ export const handlers = [
           );
         }
       }
-    } catch (error) {
+    } catch {
       // request.formData() threw (e.g. Content-Type not multipart in Node); try to parse multipart from clone
       jobType = 'word-count';
       fileName = 'test.txt';
@@ -157,7 +157,7 @@ export const handlers = [
           if (sizeMatch && sizeMatch[1]) fileSize = sizeMatch[1].length;
         }
         if (fileSize === 1024 && text.length > 200) fileSize = Math.min(text.length, 1000000);
-      } catch (e) {
+      } catch {
         fileSize = 1024;
       }
     }

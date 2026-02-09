@@ -77,8 +77,7 @@ test.describe('Job Management E2E Tests', () => {
     
     // Check if loading indicators appear (if any)
     const loadingIndicators = page.locator('[aria-busy="true"], .loading, .skeleton, [data-loading="true"]');
-    const loadingCount = await loadingIndicators.count();
-    
+
     // Either loading indicators appear briefly, or content loads immediately
     // This test verifies the page doesn't hang
     await page.waitForLoadState('networkidle', { timeout: 10000 });

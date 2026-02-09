@@ -375,7 +375,9 @@ describe('jobService', () => {
       const job = await jobService.createJob(jobData);
       expect(job).toBeDefined();
       // Options may be undefined or empty object depending on backend
-      expect(job.options === undefined || job.options === {} || typeof job.options === 'object').toBe(true);
+      const optionsOk = job.options === undefined ||
+        (typeof job.options === 'object' && job.options !== null && Object.keys(job.options).length === 0);
+      expect(optionsOk).toBe(true);
     });
 
     it('should handle complex options object', async () => {

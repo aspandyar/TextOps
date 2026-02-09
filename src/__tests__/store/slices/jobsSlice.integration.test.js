@@ -167,7 +167,7 @@ describe('jobsSlice Integration Tests', () => {
       const store = createTestStore();
       const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
-      const promises = Array(5).fill(null).map((_, i) =>
+      const promises = Array(5).fill(null).map(() =>
         store.dispatch(createJob({
           file,
           jobType: 'word-count',
