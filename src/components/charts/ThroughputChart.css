@@ -1,0 +1,11 @@
+.throughput-chart {
+  width: 100%;
+  padding: 20px;
+}
+
+.throughput-chart-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}

@@ -1,35 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Provider, useDispatch } from 'react-redux';
+import { store } from './store';
+import { fetchJobs } from './store/slices/jobsSlice';
+import { useWebSocket } from './hooks/useWebSocket';
+import AlertContainer from './components/common/AlertContainer';
+import Layout from './components/layout/Layout';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Lazy load pages for code splitting (mandatory)
+const HomePage = lazy(() => import('./pages/HomePage'));
+const JobDetailPage = lazy(() => import('./pages/JobDetailPage'));
+
+// Protected Route: wrap main area; can be extended with auth checks
+const ProtectedRoute = ({ children }) => {
+  return children;
+};
+
+const LoadingSpinner = () => (
+  <div className="loading-spinner">
+    <div className="spinner"></div>
+    <p>Loading...</p>
+  </div>
+);
+
+const AppContent = () => {
+  const dispatch = useDispatch();
+  useWebSocket();
+
+  useEffect(() => {
+    dispatch(fetchJobs());
+  }, [dispatch]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AlertContainer />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<HomePage />} />
+            <Route path="job/:jobId" element={<JobDetailPage />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </>
-  )
+  );
+};
+
+function App() {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
-export default App
+export default App;

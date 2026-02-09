@@ -1,0 +1,87 @@
+.app-header {
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.connection-status.connected .status-dot {
+  background: #4CAF50;
+  box-shadow: 0 0 4px #4CAF50;
+}
+
+.connection-status.disconnected .status-dot {
+  background: #f44336;
+  box-shadow: 0 0 4px #f44336;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.header-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.stat-running {
+  color: #4CAF50;
+}
+
+.stat-completed {
+  color: #2196F3;
+}

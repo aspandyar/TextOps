@@ -1,0 +1,70 @@
+.job-type-selector {
+  width: 100%;
+}
+
+.job-type-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.job-type-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.job-type-option {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.job-type-option:hover:not(.disabled) {
+  border-color: #2196F3;
+  background: #f5f9ff;
+}
+
+.job-type-option.selected {
+  border-color: #2196F3;
+  background: #e3f2fd;
+}
+
+.job-type-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.job-type-option-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.job-type-radio {
+  cursor: pointer;
+}
+
+.job-type-option-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.job-type-option-description {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  margin-left: 24px;
+}
+
+.job-type-error {
+  margin-top: 8px;
+  color: #f44336;
+  font-size: 0.875rem;
+}
