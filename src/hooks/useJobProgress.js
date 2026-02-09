@@ -1,12 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+const EMPTY_METRICS = [];
+
 export const useJobProgress = (jobId) => {
-  const job = useSelector(state => 
+  const job = useSelector(state =>
     state.jobs.list.find(j => j.id === jobId)
   );
-  const metrics = useSelector(state => 
-    state.metrics.jobMetrics[jobId] || []
+  const metrics = useSelector(state =>
+    state.metrics.jobMetrics[jobId] ?? EMPTY_METRICS
   );
 
   const [simulatedProgress, setSimulatedProgress] = useState(0);
