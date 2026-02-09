@@ -5,7 +5,7 @@ import './JobList.css';
 /**
  * Presentational: receives jobs and callbacks from container. No Redux.
  */
-const JobList = memo(({ jobs = [], filter = 'all', onCancel, onDelete }) => {
+const JobList = memo(({ jobs = [], filter: _filter = 'all', onCancel, onDelete }) => {
   const sortedJobs = useMemo(() => {
     return [...jobs].sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);

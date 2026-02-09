@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">82.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>52/56</span>
+                <span class='fraction'>46/56</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.66% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/15</span>
+                <span class='fraction'>3/11</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">82.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>52/56</span>
+                <span class='fraction'>46/56</span>
             </div>
         
             
@@ -134,28 +134,28 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">68x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">68x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">94x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -166,12 +166,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -192,21 +192,21 @@ api.interceptors.request.use(
   (config) =&gt; {
     // Add auth token if available
     const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      config.headers.Authorization = `Bearer ${token}`;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
     
     // Check if data is FormData
     const isFormData = config.data instanceof FormData || 
-                       (config.data &amp;&amp; typeof config.data.constructor === 'function' &amp;&amp; 
+                       (config.data <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof config.data.constructor === 'function' <span class="branch-0 cbranch-no" title="branch not covered" ></span>&amp;&amp; </span>
                         config.data.constructor.name === 'FormData') ||
-                       (config.data &amp;&amp; typeof config.data.append === 'function' <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; </span>
+                       (config.data <span class="branch-0 cbranch-no" title="branch not covered" >&amp;&amp; typeof config.data.append === 'function' <span class="branch-0 cbranch-no" title="branch not covered" ></span>&amp;&amp; </span>
                         typeof config.data.get === 'function');
     
     // Only set Content-Type for non-FormData requests
     // Axios will automatically set it with boundary for FormData
-    if (isFormData) {
-      delete config.headers['Content-Type'];
+    if (isFormData) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      delete config.headers['Content-Type'];</span>
     } else if (!isFormData &amp;&amp; !config.headers['Content-Type']) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >      config.headers['Content-Type'] = 'application/json';</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
@@ -222,10 +222,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) =&gt; response,
   (error) =&gt; {
-    if (error.response?.status === 401) {
-      // Handle unauthorized
-      localStorage.removeItem('authToken');
-    }
+    if (error.response?.status === 401) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      // Handle unauthorized</span>
+<span class="cstat-no" title="statement not covered" >      localStorage.removeItem('authToken');</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
     return Promise.reject(error);
   }
 );
@@ -238,7 +238,7 @@ export default api;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-09T16:14:28.465Z
+                at 2026-02-09T16:17:45.996Z
             </div>
         <script src="../prettify.js"></script>
         <script>

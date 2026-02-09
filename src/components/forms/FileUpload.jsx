@@ -23,7 +23,7 @@ const FileUpload = memo(({ onFileSelect, error, disabled }) => {
         setValidationError(validation.errors[0]);
         onFileSelect(null);
       }
-    } catch (error) {
+    } catch {
       setValidationError('File validation failed');
       onFileSelect(null);
     } finally {

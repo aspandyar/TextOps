@@ -15,10 +15,11 @@ const MetricsChart = memo(({ data, metrics = ['linesProcessed', 'speed'] }) => {
   const chartData = useMemo(() => {
     if (!data || data.length === 0) return [];
     
+    const baseTime = data[0]?.timestamp ?? 0;
     return data.map((item, index) => ({
       ...item,
       time: index,
-      timestamp: item.timestamp || Date.now() - (data.length - index) * 1000,
+      timestamp: item.timestamp ?? baseTime + index * 1000,
     }));
   }, [data]);
 

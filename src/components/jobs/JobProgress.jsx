@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useJobProgress } from '../../hooks/useJobProgress';
 import ProgressBar from '../common/ProgressBar';
@@ -8,13 +8,21 @@ import './JobProgress.css';
 const JobProgress = memo(({ jobId }) => {
   const job = useSelector(state => state.jobs.list.find(j => j.id === jobId));
   const { progress, metrics } = useJobProgress(jobId);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    if (!job?.startedAt || job.status !== 'running') return;
+    const tick = () => setNow(Date.now());
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [job?.startedAt, job?.status]);
 
   if (!job || job.status !== 'running') {
     return null;
   }
 
-  const elapsedTime = job.startedAt 
-    ? (Date.now() - new Date(job.startedAt).getTime()) / 1000
+  const elapsedTime = job.startedAt
+    ? (now - new Date(job.startedAt).getTime()) / 1000
     : 0;
 
   return (

@@ -13,19 +13,17 @@ export const useJobProgress = (jobId) => {
 
   const [simulatedProgress, setSimulatedProgress] = useState(0);
 
-  // Simulate progress if job exists but no real metrics
+  // Simulate progress if job exists but no real metrics (currentProgress already prefers job.progress)
   useEffect(() => {
     if (!job || job.status === 'completed' || job.status === 'failed') {
       return;
     }
 
-    // If we have real progress from job, use it
     if (job.progress !== undefined && job.progress > 0) {
-      setSimulatedProgress(job.progress);
       return;
     }
 
-    // Otherwise simulate for demo purposes
+    // Simulate for demo purposes when no real progress yet
     const interval = setInterval(() => {
       setSimulatedProgress(prev => {
         if (prev >= 100) {
