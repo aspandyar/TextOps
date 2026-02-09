@@ -168,7 +168,7 @@ Optional steps:
 - **Deploy:** Upload `dist/` to a static host (e.g. Vercel, Netlify) or attach the build as an artifact.
 - **E2E:** Run Playwright (e.g. `npm run test:e2e`) in a separate job or stage.
 
-CI ensures that only code that passes lint and tests and builds successfully can be merged or deployed. The pipeline is implemented in **`.github/workflows/ci.yml`** (repository root): on push or pull request to `main`/`master`, it runs install → lint → test:coverage → build from the `TextOps` directory.
+CI ensures that only code that passes lint and tests and builds successfully can be merged or deployed. The pipeline is implemented in **`.github/workflows/ci.yml`** in the frontend repo (TextOps): on push or pull request to `main`/`master`, it runs install → lint → test:coverage → build.
 
 ---
 
