@@ -107,6 +107,40 @@
   color: #333;
 }
 
+.header-auth-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-login-link,
+.header-register-link {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.header-login-link {
+  color: #2196F3;
+  border: 1px solid #2196F3;
+}
+
+.header-login-link:hover {
+  background: #e3f2fd;
+}
+
+.header-register-link {
+  background: #2196F3;
+  color: white;
+  border: 1px solid #2196F3;
+}
+
+.header-register-link:hover {
+  background: #1976D2;
+}
+
 .header-stat {
   display: flex;
   flex-direction: column;

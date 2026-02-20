@@ -11,6 +11,7 @@ import JobList from '../components/jobs/JobList';
 const JobListContainer = ({ filter = 'all' }) => {
   const dispatch = useDispatch();
   const jobs = useSelector(state => selectJobsFilteredByStatus(state, filter));
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const onCancel = useCallback(
     (jobId) => {
@@ -36,6 +37,7 @@ const JobListContainer = ({ filter = 'all' }) => {
       filter={filter}
       onCancel={onCancel}
       onDelete={onDelete}
+      isAuthenticated={isAuthenticated}
     />
   );
 };

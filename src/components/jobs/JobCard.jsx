@@ -1,5 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setActiveJob } from '../../store/slices/jobsSlice';
 import { useJobProgress } from '../../hooks/useJobProgress';
 import ProgressBar from '../common/ProgressBar';
@@ -8,19 +9,23 @@ import './JobCard.css';
 
 const JobCard = memo(({ job, onCancel, onDelete }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { progress, metrics } = useJobProgress(job.id);
 
-  const handleCancel = useCallback(() => {
+  const handleCancel = useCallback((e) => {
+    e?.stopPropagation?.();
     onCancel?.(job.id);
   }, [job.id, onCancel]);
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = useCallback((e) => {
+    e?.stopPropagation?.();
     onDelete?.(job.id);
   }, [job.id, onDelete]);
 
   const handleSelect = useCallback(() => {
     dispatch(setActiveJob(job.id));
-  }, [dispatch, job.id]);
+    navigate(`/job/${job.id}`);
+  }, [dispatch, navigate, job.id]);
 
   const getStatusColor = () => {
     switch (job.status) {
@@ -53,12 +58,12 @@ const JobCard = memo(({ job, onCancel, onDelete }) => {
         </div>
         <div className="job-card-actions">
           {job.status === 'running' && (
-            <button onClick={(e) => { e.stopPropagation(); handleCancel(); }} className="job-action-btn job-action-cancel">
+            <button onClick={handleCancel} className="job-action-btn job-action-cancel">
               Cancel
             </button>
           )}
           {(job.status === 'completed' || job.status === 'failed' || job.status === 'cancelled') && (
-            <button onClick={(e) => { e.stopPropagation(); handleDelete(); }} className="job-action-btn job-action-delete">
+            <button onClick={handleDelete} className="job-action-btn job-action-delete">
               Delete
             </button>
           )}

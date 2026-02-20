@@ -15,10 +15,9 @@ const JobDetailContainer = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const jobIdNum = parseInt(jobId, 10) || 0;
 
-  const job = useSelector(state => selectJobById(state, jobIdNum));
-  useJobMetrics(jobIdNum);
+  const job = useSelector(state => selectJobById(state, jobId));
+  useJobMetrics(jobId);
 
   useEffect(() => {
     if (job) {
@@ -44,7 +43,7 @@ const JobDetailContainer = () => {
   return (
     <JobDetailView
       job={job}
-      jobId={jobIdNum}
+      jobId={jobId}
       onBack={onBack}
     />
   );
