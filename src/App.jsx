@@ -1,19 +1,33 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store } from './store';
 import { fetchJobs } from './store/slices/jobsSlice';
+import { fetchMe } from './store/slices/authSlice';
 import { useWebSocket } from './hooks/useWebSocket';
 import AlertContainer from './components/common/AlertContainer';
 import Layout from './components/layout/Layout';
 import './App.css';
 
-// Lazy load pages for code splitting (mandatory)
 const HomePage = lazy(() => import('./pages/HomePage'));
 const JobDetailPage = lazy(() => import('./pages/JobDetailPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 
-// Protected Route: wrap main area; can be extended with auth checks
 const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
+  if (!token && !isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  return children;
+};
+
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
+  if (token || isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
   return children;
 };
 
@@ -26,17 +40,38 @@ const LoadingSpinner = () => (
 
 const AppContent = () => {
   const dispatch = useDispatch();
+  const { token, isAuthenticated } = useSelector((state) => state.auth);
   useWebSocket();
 
   useEffect(() => {
-    dispatch(fetchJobs());
-  }, [dispatch]);
+    if (token) dispatch(fetchMe());
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (isAuthenticated) dispatch(fetchJobs());
+  }, [dispatch, isAuthenticated]);
 
   return (
     <>
       <AlertContainer />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <RegisterPage />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/"
             element={

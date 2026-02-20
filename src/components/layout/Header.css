@@ -53,11 +53,58 @@
 .header-right {
   display: flex;
   align-items: center;
+  gap: 24px;
 }
 
 .header-stats {
   display: flex;
   gap: 24px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 24px;
+  border-left: 1px solid #e0e0e0;
+}
+
+.header-user-email {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.header-user-role {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.header-user-role.role-admin {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.header-user-role.role-user {
+  background: #f5f5f5;
+  color: #616161;
+}
+
+.header-logout {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #555;
+}
+
+.header-logout:hover {
+  background: #f5f5f5;
+  color: #333;
 }
 
 .header-stat {

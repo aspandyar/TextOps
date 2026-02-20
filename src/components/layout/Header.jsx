@@ -1,12 +1,22 @@
 import React, { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { selectJobsStats } from '../../store/selectors/jobSelectors';
+import { logout } from '../../store/slices/authSlice';
 import './Header.css';
 
 const Header = memo(() => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isConnected } = useWebSocket();
   const jobsStats = useSelector(selectJobsStats);
+  const user = useSelector((state) => state.auth.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login', { replace: true });
+  };
 
   return (
     <header className="app-header">
@@ -32,7 +42,16 @@ const Header = memo(() => {
               <span className="stat-label">Completed</span>
               <span className="stat-value stat-completed">{jobsStats.completed}</span>
             </div>
-          </div>
+            </div>
+          {user && (
+            <div className="header-user">
+              <span className="header-user-email">{user.email}</span>
+              <span className={`header-user-role role-${user.role}`}>{user.role}</span>
+              <button type="button" className="header-logout" onClick={handleLogout}>
+                Log out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>
