@@ -7,7 +7,7 @@ import ProgressBar from '../common/ProgressBar';
 import { formatDate, formatBytes } from '../../utils/formatters';
 import './JobCard.css';
 
-const JobCard = memo(({ job, onCancel, onDelete }) => {
+const JobCard = memo(({ job, onCancel, onDelete, onJobClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { progress, metrics } = useJobProgress(job.id);
@@ -24,8 +24,12 @@ const JobCard = memo(({ job, onCancel, onDelete }) => {
 
   const handleSelect = useCallback(() => {
     dispatch(setActiveJob(job.id));
-    navigate(`/job/${job.id}`);
-  }, [dispatch, navigate, job.id]);
+    if (onJobClick) {
+      onJobClick(job.id);
+    } else {
+      navigate(`/job/${job.id}`);
+    }
+  }, [dispatch, navigate, job.id, onJobClick]);
 
   const getStatusColor = () => {
     switch (job.status) {
