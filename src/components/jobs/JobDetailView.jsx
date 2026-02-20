@@ -16,13 +16,17 @@ const JobDetailView = memo(({ job, jobId, onBack, onClose }) => {
 
   const hasResultFile = job.status === 'completed' && job.result?.resultFileName;
 
+  // Derive display state when there is no result file (avoid setState in effect)
+  const stateWhenNoFile =
+    !hasResultFile && (job.status === 'completed' && job.result?.stats ? 'statsOnly' : 'idle');
+  const displayState = stateWhenNoFile ?? outputState;
+
   useEffect(() => {
-    if (!hasResultFile) {
-      setOutputState(job.status === 'completed' && job.result?.stats ? 'statsOnly' : 'idle');
-      return;
-    }
+    if (!hasResultFile) return;
     let cancelled = false;
-    setOutputState('loading');
+    queueMicrotask(() => {
+      if (!cancelled) setOutputState('loading');
+    });
     jobService
       .getOutputText(jobId)
       .then((data) => {
@@ -37,7 +41,9 @@ const JobDetailView = memo(({ job, jobId, onBack, onClose }) => {
       .catch(() => {
         if (!cancelled) setOutputState('error');
       });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [jobId, hasResultFile, job.status, job.result]);
 
   const handleDownload = useCallback(() => {
@@ -113,11 +119,11 @@ const JobDetailView = memo(({ job, jobId, onBack, onClose }) => {
             </button>
             <h3 className="job-detail-output-title">Full output</h3>
             <div className="job-detail-output-box">
-              {outputState === 'loading' && <p>Loading output…</p>}
-              {outputState === 'tooLarge' && <p className="output-too-large">Output is too large to display. Use the Download button.</p>}
-              {outputState === 'statsOnly' && <p>This job has stats only.</p>}
-              {outputState === 'error' && <p>Could not load output.</p>}
-              {outputState === 'loaded' && (
+              {displayState === 'loading' && <p>Loading output…</p>}
+              {displayState === 'tooLarge' && <p className="output-too-large">Output is too large to display. Use the Download button.</p>}
+              {displayState === 'statsOnly' && <p>This job has stats only.</p>}
+              {displayState === 'error' && <p>Could not load output.</p>}
+              {displayState === 'loaded' && (
                 <pre className="job-detail-output-text">{outputText}</pre>
               )}
             </div>

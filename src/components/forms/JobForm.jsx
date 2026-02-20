@@ -119,7 +119,7 @@ const JobForm = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [selectedFile, dispatch, reset, isAuthenticated]);
+  }, [selectedFile, dispatch, reset, isAuthenticated, jobType]);
 
   const showSortOptions = useMemo(() => jobType === 'sort', [jobType]);
   const showDedupOptions = useMemo(() => jobType === 'dedup', [jobType]);
