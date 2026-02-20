@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { store } from '../store';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
@@ -46,8 +47,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized
       localStorage.removeItem('authToken');
+      localStorage.removeItem('authUser');
+      store.dispatch({ type: 'auth/logout' });
     }
     return Promise.reject(error);
   }

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createJob } from '../../store/slices/jobsSlice';
 import { addAlert } from '../../store/slices/alertsSlice';
 import FileUpload from './FileUpload';
@@ -60,7 +60,16 @@ const JobForm = () => {
     setValue('options', { ...options, [key]: value }, { shouldValidate: true });
   }, [options, setValue]);
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const onSubmit = useCallback(async (data) => {
+    if (!isAuthenticated) {
+      dispatch(addAlert({
+        type: 'error',
+        message: 'Please log in to create jobs.',
+      }));
+      return;
+    }
     if (!selectedFile) {
       dispatch(addAlert({
         type: 'error',
@@ -82,10 +91,15 @@ const JobForm = () => {
     setIsSubmitting(true);
 
     try {
+      const selectedJobType = data.jobType || jobType;
+      if (!selectedJobType) {
+        dispatch(addAlert({ type: 'error', message: 'Please select a job type.' }));
+        return;
+      }
       const jobData = {
         file: selectedFile,
-        jobType: data.jobType,
-        options: data.options,
+        jobType: selectedJobType,
+        options: data.options || {},
       };
 
       await dispatch(createJob(jobData)).unwrap();
@@ -105,7 +119,7 @@ const JobForm = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [selectedFile, dispatch, reset]);
+  }, [selectedFile, dispatch, reset, isAuthenticated]);
 
   const showSortOptions = useMemo(() => jobType === 'sort', [jobType]);
   const showDedupOptions = useMemo(() => jobType === 'dedup', [jobType]);

@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
+import { selectJobMetrics } from '../../store/selectors/metricsSelectors';
 import MetricsChart from '../charts/MetricsChart';
 import './JobMetrics.css';
 
 const JobMetrics = memo(({ jobId }) => {
-  const metrics = useSelector(state => state.metrics.jobMetrics[jobId] || []);
+  const metrics = useSelector((state) => selectJobMetrics(state, jobId));
 
   if (metrics.length === 0) {
     return (

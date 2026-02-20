@@ -1,12 +1,22 @@
 import React, { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { selectJobsStats } from '../../store/selectors/jobSelectors';
+import { logout } from '../../store/slices/authSlice';
 import './Header.css';
 
 const Header = memo(() => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isConnected } = useWebSocket();
   const jobsStats = useSelector(selectJobsStats);
+  const user = useSelector((state) => state.auth.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/', { replace: true });
+  };
 
   return (
     <header className="app-header">
@@ -19,20 +29,36 @@ const Header = memo(() => {
           </span>
         </div>
         <div className="header-right">
-          <div className="header-stats">
-            <div className="header-stat">
-              <span className="stat-label">Total Jobs</span>
-              <span className="stat-value">{jobsStats.total}</span>
+          {user ? (
+            <>
+              <div className="header-stats">
+                <div className="header-stat">
+                  <span className="stat-label">Total Jobs</span>
+                  <span className="stat-value">{jobsStats.total}</span>
+                </div>
+                <div className="header-stat">
+                  <span className="stat-label">Running</span>
+                  <span className="stat-value stat-running">{jobsStats.running}</span>
+                </div>
+                <div className="header-stat">
+                  <span className="stat-label">Completed</span>
+                  <span className="stat-value stat-completed">{jobsStats.completed}</span>
+                </div>
+              </div>
+              <div className="header-user">
+                <span className="header-user-email">{user.email}</span>
+                <span className={`header-user-role role-${user.role}`}>{user.role}</span>
+                <button type="button" className="header-logout" onClick={handleLogout}>
+                  Log out
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="header-auth-links">
+              <Link to="/login" className="header-login-link">Log in</Link>
+              <Link to="/register" className="header-register-link">Register</Link>
             </div>
-            <div className="header-stat">
-              <span className="stat-label">Running</span>
-              <span className="stat-value stat-running">{jobsStats.running}</span>
-            </div>
-            <div className="header-stat">
-              <span className="stat-label">Completed</span>
-              <span className="stat-value stat-completed">{jobsStats.completed}</span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </header>

@@ -71,3 +71,72 @@
   color: #666;
   margin-bottom: 24px;
 }
+
+.job-detail-actions {
+  margin-bottom: 16px;
+}
+
+.job-detail-actions .back-button {
+  margin-right: 8px;
+}
+
+.job-detail-result-stats,
+.job-detail-result-section {
+  margin-bottom: 24px;
+}
+
+.job-detail-result-stats h3,
+.job-detail-result-section h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.job-result-stats-inline {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.job-detail-download-btn {
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.job-detail-download-btn:hover {
+  background: #43A047;
+}
+
+.job-detail-output-title {
+  margin-top: 16px !important;
+}
+
+.job-detail-output-box {
+  max-height: 400px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 12px;
+}
+
+.job-detail-output-text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow: auto;
+  max-height: 360px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.output-too-large {
+  color: #666;
+  margin: 0;
+}

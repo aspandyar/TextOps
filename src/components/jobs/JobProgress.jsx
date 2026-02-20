@@ -1,12 +1,13 @@
 import React, { memo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { selectJobById } from '../../store/selectors/jobSelectors';
 import { useJobProgress } from '../../hooks/useJobProgress';
 import ProgressBar from '../common/ProgressBar';
 import { formatDuration } from '../../utils/formatters';
 import './JobProgress.css';
 
 const JobProgress = memo(({ jobId }) => {
-  const job = useSelector(state => state.jobs.list.find(j => j.id === jobId));
+  const job = useSelector((state) => selectJobById(state, jobId));
   const { progress, metrics } = useJobProgress(jobId);
   const [now, setNow] = useState(() => Date.now());
 

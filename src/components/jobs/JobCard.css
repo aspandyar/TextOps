@@ -176,3 +176,11 @@
 .job-result-stats span {
   font-weight: 500;
 }
+
+.job-result-file-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #1976d2;
+  font-weight: 500;
+}

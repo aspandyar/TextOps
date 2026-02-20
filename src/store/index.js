@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './slices/authSlice';
 import jobsReducer from './slices/jobsSlice';
 import metricsReducer from './slices/metricsSlice';
 import alertsReducer from './slices/alertsSlice';
@@ -6,6 +7,7 @@ import systemReducer from './slices/systemSlice';
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
     jobs: jobsReducer,
     metrics: metricsReducer,
     alerts: alertsReducer,

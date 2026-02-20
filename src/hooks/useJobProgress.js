@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
-const EMPTY_METRICS = [];
+import { selectJobById } from '../store/selectors/jobSelectors';
+import { selectJobMetrics } from '../store/selectors/metricsSelectors';
 
 export const useJobProgress = (jobId) => {
-  const job = useSelector(state =>
-    state.jobs.list.find(j => j.id === jobId)
-  );
-  const metrics = useSelector(state =>
-    state.metrics.jobMetrics[jobId] ?? EMPTY_METRICS
-  );
+  const job = useSelector((state) => selectJobById(state, jobId));
+  const metrics = useSelector((state) => selectJobMetrics(state, jobId));
 
   const [simulatedProgress, setSimulatedProgress] = useState(0);
 

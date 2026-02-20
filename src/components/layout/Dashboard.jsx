@@ -1,12 +1,14 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectJobsStats } from '../../store/selectors/jobSelectors';
 import JobListContainer from '../../containers/JobListContainer';
+import JobDetailModal from '../jobs/JobDetailModal';
 import StatCard from '../common/StatCard';
 import SystemMetricsChart from '../charts/SystemMetricsChart';
 import './Dashboard.css';
 
 const Dashboard = memo(() => {
+  const [modalJobId, setModalJobId] = useState(null);
   const stats = useSelector(selectJobsStats);
   const systemMetrics = useSelector(state => state.metrics.systemMetrics);
 
@@ -57,8 +59,11 @@ const Dashboard = memo(() => {
 
       <div className="dashboard-jobs">
         <h2 className="dashboard-section-title">Jobs</h2>
-        <JobListContainer filter="all" />
+        <JobListContainer filter="all" onJobClick={setModalJobId} />
       </div>
+      {modalJobId && (
+        <JobDetailModal jobId={modalJobId} onClose={() => setModalJobId(null)} />
+      )}
     </div>
   );
 });

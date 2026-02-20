@@ -8,9 +8,10 @@ import JobList from '../components/jobs/JobList';
  * Container: connects Redux to JobList. Selects filtered jobs and provides
  * cancel/delete handlers. JobList is presentational (no Redux).
  */
-const JobListContainer = ({ filter = 'all' }) => {
+const JobListContainer = ({ filter = 'all', onJobClick }) => {
   const dispatch = useDispatch();
   const jobs = useSelector(state => selectJobsFilteredByStatus(state, filter));
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const onCancel = useCallback(
     (jobId) => {
@@ -36,6 +37,8 @@ const JobListContainer = ({ filter = 'all' }) => {
       filter={filter}
       onCancel={onCancel}
       onDelete={onDelete}
+      onJobClick={onJobClick}
+      isAuthenticated={isAuthenticated}
     />
   );
 };
