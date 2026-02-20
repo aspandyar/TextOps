@@ -10,10 +10,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { selectSystemMetricsByType } from '../../store/selectors/metricsSelectors';
 import './SystemMetricsChart.css';
 
 const SystemMetricsChart = memo(({ metricType = 'cpu' }) => {
-  const metrics = useSelector(state => state.metrics.systemMetrics[metricType] || []);
+  const metrics = useSelector((state) => selectSystemMetricsByType(state, metricType));
 
   const chartData = useMemo(() => {
     if (metrics.length === 0) return [];
