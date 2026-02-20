@@ -14,10 +14,14 @@ export const jobService = {
     if (!jobData.file) {
       throw new Error('File is required');
     }
+    const jobType = jobData.jobType != null ? String(jobData.jobType).trim() : '';
+    if (!jobType) {
+      throw new Error('Job type is required');
+    }
 
     const formData = new FormData();
     formData.append('file', jobData.file);
-    formData.append('jobType', jobData.jobType);
+    formData.append('jobType', jobType);
     formData.append('options', JSON.stringify(jobData.options || {}));
 
     try {

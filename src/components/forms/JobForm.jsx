@@ -91,10 +91,15 @@ const JobForm = () => {
     setIsSubmitting(true);
 
     try {
+      const selectedJobType = data.jobType || jobType;
+      if (!selectedJobType) {
+        dispatch(addAlert({ type: 'error', message: 'Please select a job type.' }));
+        return;
+      }
       const jobData = {
         file: selectedFile,
-        jobType: data.jobType,
-        options: data.options,
+        jobType: selectedJobType,
+        options: data.options || {},
       };
 
       await dispatch(createJob(jobData)).unwrap();

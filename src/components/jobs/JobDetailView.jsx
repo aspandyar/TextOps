@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect, useCallback } from 'react';
 import JobProgress from './JobProgress';
 import JobMetrics from './JobMetrics';
 import StatCard from '../common/StatCard';
-import { formatDate, formatBytes } from '../../utils/formatters';
+import { formatDate, formatBytes, formatJobResultStats } from '../../utils/formatters';
 import { jobService } from '../../services/jobService';
 import '../../pages/JobDetailPage.css';
 
@@ -96,11 +96,11 @@ const JobDetailView = memo(({ job, jobId, onBack, onClose }) => {
 
         {job.status === 'completed' && job.result?.stats && (
           <div className="job-detail-result-stats">
-            <h3>Result stats</h3>
+            <h3>Result summary</h3>
             <div className="job-result-stats-inline">
-              <span>Words: {job.result.stats.words?.toLocaleString() ?? '—'}</span>
-              <span>Lines: {job.result.stats.lines?.toLocaleString() ?? '—'}</span>
-              <span>Characters: {job.result.stats.characters?.toLocaleString() ?? '—'}</span>
+              {formatJobResultStats(job.result.stats).map(({ label, value }) => (
+                <span key={label}>{label}: {value}</span>
+              ))}
             </div>
           </div>
         )}

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { setActiveJob } from '../../store/slices/jobsSlice';
 import { useJobProgress } from '../../hooks/useJobProgress';
 import ProgressBar from '../common/ProgressBar';
-import { formatDate, formatBytes } from '../../utils/formatters';
+import { formatDate, formatBytes, formatJobResultStats } from '../../utils/formatters';
 import './JobCard.css';
 
 const JobCard = memo(({ job, onCancel, onDelete, onJobClick }) => {
@@ -13,12 +13,14 @@ const JobCard = memo(({ job, onCancel, onDelete, onJobClick }) => {
   const { progress, metrics } = useJobProgress(job.id);
 
   const handleCancel = useCallback((e) => {
-    e?.stopPropagation?.();
+    e.preventDefault();
+    e.stopPropagation();
     onCancel?.(job.id);
   }, [job.id, onCancel]);
 
   const handleDelete = useCallback((e) => {
-    e?.stopPropagation?.();
+    e.preventDefault();
+    e.stopPropagation();
     onDelete?.(job.id);
   }, [job.id, onDelete]);
 
@@ -60,14 +62,14 @@ const JobCard = memo(({ job, onCancel, onDelete, onJobClick }) => {
             {job.status}
           </span>
         </div>
-        <div className="job-card-actions">
+        <div className="job-card-actions" onClick={(e) => e.stopPropagation()}>
           {job.status === 'running' && (
-            <button onClick={handleCancel} className="job-action-btn job-action-cancel">
+            <button type="button" onClick={handleCancel} className="job-action-btn job-action-cancel">
               Cancel
             </button>
           )}
           {(job.status === 'completed' || job.status === 'failed' || job.status === 'cancelled') && (
-            <button onClick={handleDelete} className="job-action-btn job-action-delete">
+            <button type="button" onClick={handleDelete} className="job-action-btn job-action-delete">
               Delete
             </button>
           )}
@@ -107,15 +109,11 @@ const JobCard = memo(({ job, onCancel, onDelete, onJobClick }) => {
             <span className="job-result-success">✓ Job completed successfully</span>
             {job.result?.stats && (
               <div className="job-result-stats">
-                {job.type === 'wordcount' && (
-                  <>
-                    <span>Words: {job.result.stats.words?.toLocaleString() ?? '—'}</span>
-                    <span>Lines: {job.result.stats.lines?.toLocaleString() ?? '—'}</span>
-                    <span>Characters: {job.result.stats.characters?.toLocaleString() ?? '—'}</span>
-                  </>
-                )}
-                {job.type !== 'wordcount' && job.result.stats && (
-                  <span>Result: {JSON.stringify(job.result.stats)}</span>
+                {formatJobResultStats(job.result.stats).map(({ label, value }) => (
+                  <span key={label}>{label}: {value}</span>
+                ))}
+                {job.result?.resultFileName && (
+                  <span className="job-result-file-hint">Result file ready for download</span>
                 )}
               </div>
             )}

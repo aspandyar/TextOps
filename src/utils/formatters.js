@@ -27,3 +27,17 @@ export const formatPercentage = (value) => {
 export const formatNumber = (value) => {
   return new Intl.NumberFormat().format(value);
 };
+
+/**
+ * Format job result stats for display (no raw JSON).
+ * stats: { words?, lines?, characters?, charactersNoSpaces? }
+ */
+export function formatJobResultStats(stats) {
+  if (!stats || typeof stats !== 'object') return [];
+  const parts = [];
+  if (stats.words != null) parts.push({ label: 'Words', value: formatNumber(stats.words) });
+  if (stats.lines != null) parts.push({ label: 'Lines', value: formatNumber(stats.lines) });
+  if (stats.characters != null) parts.push({ label: 'Characters', value: formatNumber(stats.characters) });
+  if (stats.charactersNoSpaces != null) parts.push({ label: 'Characters (no spaces)', value: formatNumber(stats.charactersNoSpaces) });
+  return parts;
+}
