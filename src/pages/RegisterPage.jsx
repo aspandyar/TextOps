@@ -17,7 +17,8 @@ const RegisterPage = () => {
     watch,
     formState: { errors },
   } = useForm({ defaultValues: { email: '', password: '', confirmPassword: '' } });
-  const password = watch('password');
+  // react-hook-form watch() is not memoizable; used only for confirmPassword validation
+  const password = watch('password'); // eslint-disable-line react-hooks/incompatible-library
 
   useEffect(() => {
     if (isAuthenticated) navigate('/', { replace: true });
